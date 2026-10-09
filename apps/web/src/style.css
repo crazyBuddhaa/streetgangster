@@ -1,12 +1,13 @@
 :root {
   color-scheme: dark;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #f4f4f5;
+  color: #f4f0e5;
   background: #0b0d10;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
 }
 
 *,
@@ -22,36 +23,286 @@ body,
   height: 100%;
   margin: 0;
   overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 
 body {
   min-width: 320px;
   height: 100vh;
   height: 100dvh;
-  overscroll-behavior: none;
   background: #0b0d10;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-#root {
-  height: 100vh;
-  height: 100dvh;
+button {
+  font: inherit;
 }
 
-.splash {
-  display: grid;
+.game-root {
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  place-items: center;
-  padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
-  text-align: center;
-  background: #0b0d10;
+  overflow: hidden;
+  isolation: isolate;
+  background: #c9b58e;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
-.splash h1 {
-  max-width: 100%;
+.scene-canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+.camera-look-area {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+.camera-look-area:active {
+  cursor: grabbing;
+}
+
+.hud {
+  position: absolute;
+  z-index: 5;
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+  right: max(14px, env(safe-area-inset-right));
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hud-card {
+  min-width: 112px;
+  padding: 10px 13px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 12px;
+  background: rgb(17 20 21 / 82%);
+  box-shadow: 0 5px 22px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(8px);
+}
+
+.hud-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #c6bba6;
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hud-value {
+  display: block;
+  color: #fff9eb;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.health-card {
+  display: grid;
+  min-width: 168px;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 7px 10px;
+}
+
+.health-card .hud-label {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.health-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #493c33;
+}
+
+.health-fill {
+  width: 78%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #71b774, #a9d57d);
+}
+
+.health-value {
+  color: #f4f0e5;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.start-screen {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgb(16 19 19 / 40%), rgb(16 19 19 / 76%));
+}
+
+.start-card {
+  width: min(100%, 520px);
+  padding: clamp(24px, 6vw, 42px);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 22px;
+  background: rgb(18 21 21 / 92%);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 38%);
+  text-align: center;
+  backdrop-filter: blur(14px);
+}
+
+.start-kicker {
+  margin: 0 0 12px;
+  color: #d2aa6b;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.start-card h1 {
   margin: 0;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  font-weight: 650;
-  letter-spacing: -0.04em;
+  color: #fff8e9;
+  font-size: clamp(1.7rem, 5.8vw, 2.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.start-subtitle {
+  margin: 12px 0 25px;
+  color: #d1c8b8;
+  font-size: 0.98rem;
+}
+
+.start-button {
+  min-width: 190px;
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 999px;
+  color: #161712;
+  background: #e0b462;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.start-button:active {
+  transform: translateY(1px);
+  background: #edc778;
+}
+
+.control-hint {
+  margin: 22px 0 0;
+  color: #b8b2a5;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.virtual-joystick {
+  position: absolute;
+  z-index: 12;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: max(24px, env(safe-area-inset-left));
+  display: grid;
+  width: 142px;
+  height: 142px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 50%;
+  background: rgb(17 20 21 / 30%);
+  box-shadow: inset 0 0 28px rgb(255 255 255 / 7%);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.joystick-knob {
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgb(255 255 255 / 40%);
+  border-radius: 50%;
+  background: rgb(226 184 104 / 78%);
+  box-shadow: 0 5px 20px rgb(0 0 0 / 24%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.start-arena-label {
+  padding: 4px 8px;
+  border: 1px solid rgb(255 227 165 / 75%);
+  border-radius: 4px;
+  color: #fff0bd;
+  background: rgb(32 34 29 / 84%);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+  .camera-look-area {
+    left: 44%;
+  }
+
+  .hud {
+    gap: 6px;
+  }
+
+  .hud-card {
+    min-width: 0;
+    padding: 8px 9px;
+    border-radius: 10px;
+  }
+
+  .health-card {
+    min-width: 112px;
+  }
+
+  .hud-label {
+    font-size: 0.55rem;
+  }
+
+  .hud-value {
+    font-size: 0.79rem;
+  }
+
+  .health-value {
+    font-size: 0.67rem;
+  }
+
+  .virtual-joystick {
+    width: 128px;
+    height: 128px;
+  }
+
+  .joystick-knob {
+    width: 58px;
+    height: 58px;
+  }
+
+  .start-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (min-width: 681px) {
+  .virtual-joystick {
+    display: none;
+  }
 }
