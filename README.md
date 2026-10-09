@@ -1,1 +1,49 @@
-# streetgangster
+# Street Gangster
+
+Stage 1 is a minimal Vite + React + TypeScript hosting shell. It contains no game logic, backend, database, or authentication.
+
+## Requirements
+
+- Node.js 24 LTS (the version is recorded in .nvmrc)
+- npm
+
+## Run locally
+
+From the repository root:
+
+```sh
+nvm install
+nvm use
+npm --prefix apps/web install
+npm --prefix apps/web run dev
+```
+
+Vite prints the local URL (normally http://localhost:5173). To make a production build and preview it locally:
+
+```sh
+npm --prefix apps/web run build
+npm --prefix apps/web run preview
+```
+
+The static build is written to apps/web/dist.
+
+## Cloudflare Pages Git integration
+
+1. In the Cloudflare dashboard, open **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**.
+2. Authorize/select GitHub if prompted, then choose **crazyBuddhaa/streetgangster**.
+3. Set the production branch to **main**.
+4. In the build settings, use:
+   - Root directory: `apps/web`
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+5. Add the environment variable `NODE_VERSION` with value `24` for the production environment (and preview too if you want preview builds on the same Node version).
+6. Save and deploy. Later pushes to main trigger production builds; other branches can create preview deployments.
+
+## Manual Cloudflare Pages deploy
+
+Build from the repository root, then deploy the generated directory. Create the Pages project once if it does not exist yet (project name: `streetgangster`):
+
+```sh
+npm --prefix apps/web run build
+npx wrangler pages deploy apps/web/dist --project-name=streetgangster --branch=main
+```
