@@ -1,4 +1,8 @@
-export function HUD() {
+interface HUDProps {
+  onToggleZoom: () => void;
+}
+
+export function HUD({ onToggleZoom }: HUDProps) {
   return (
     <aside className="hud" aria-label="Game status">
       <div className="hud-card">
@@ -23,6 +27,15 @@ export function HUD() {
         </div>
         <span className="health-value">78%</span>
       </div>
+      <button
+        className="zoom-toggle"
+        type="button"
+        onClick={onToggleZoom}
+        aria-label="Toggle close and far camera view"
+      >
+        <span className="hud-label">Camera</span>
+        <strong>CLOSE / FAR</strong>
+      </button>
     </aside>
   );
 }

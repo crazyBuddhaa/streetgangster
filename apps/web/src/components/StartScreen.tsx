@@ -13,9 +13,9 @@ export function StartScreen({ onStart }: StartScreenProps) {
           Enter District0
         </button>
         <p className="control-hint">
-          WASD / arrow keys to move · drag to look
+          WASD / arrow keys to move · drag to look · wheel to zoom
           <br />
-          On mobile: left stick to move · drag the right side to look
+          On mobile: left stick to move · drag right to look · pinch to zoom
         </p>
       </div>
     </section>

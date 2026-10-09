@@ -54,6 +54,14 @@ button {
   overscroll-behavior: none;
 }
 
+.game-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
 .scene-canvas {
   position: absolute !important;
   inset: 0;
@@ -145,6 +153,35 @@ button {
   color: #f4f0e5;
   font-size: 0.75rem;
   font-weight: 700;
+}
+
+.zoom-toggle {
+  display: grid;
+  min-width: 118px;
+  gap: 4px;
+  padding: 10px 13px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 12px;
+  color: #fff9eb;
+  background: rgb(17 20 21 / 88%);
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.zoom-toggle .hud-label {
+  margin: 0;
+}
+
+.zoom-toggle strong {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.zoom-toggle:active {
+  border-color: rgb(224 180 98 / 70%);
+  background: rgb(51 43 31 / 94%);
 }
 
 .start-screen {
@@ -255,6 +292,31 @@ button {
   white-space: nowrap;
 }
 
+.landmark-label {
+  padding: 5px 9px;
+  border: 1px solid rgb(255 239 194 / 58%);
+  border-radius: 999px;
+  color: #fff5d8;
+  background: rgb(34 37 32 / 88%);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.game-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff4d8;
+  background: #272a25;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 @media (max-width: 680px) {
   .camera-look-area {
     left: 44%;
@@ -272,6 +334,16 @@ button {
 
   .health-card {
     min-width: 112px;
+  }
+
+  .zoom-toggle {
+    min-width: 0;
+    padding: 8px 9px;
+    border-radius: 10px;
+  }
+
+  .zoom-toggle strong {
+    font-size: 0.65rem;
   }
 
   .hud-label {

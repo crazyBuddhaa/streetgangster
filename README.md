@@ -1,6 +1,12 @@
 # Street Gangster
 
-Stage 1 is a minimal Vite + React + TypeScript hosting shell. It contains no game logic, backend, database, or authentication.
+Build 0.1 is a single-player, low-poly District0 walking prototype built with Vite, React, TypeScript, and React Three Fiber. It has no multiplayer, accounts, backend, database, or authentication.
+
+## Prototype controls
+
+- Desktop: WASD or arrow keys to move, drag to rotate the camera, and use the mouse wheel to zoom.
+- Mobile: use the left joystick to move, drag the right side to rotate the camera, and pinch to zoom.
+- The HUD camera button switches between close and far camera views.
 
 ## Requirements
 

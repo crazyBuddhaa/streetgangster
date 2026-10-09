@@ -4,6 +4,8 @@ import { Group } from 'three';
 import { moveWithCollisions } from '../controls/collision';
 import type { GameInputRef, PlayerPositionRef } from '../types';
 
+export const PLAYER_SPEED = 2.4;
+
 interface PlayerProps {
   inputRef: GameInputRef;
   playerPositionRef: PlayerPositionRef;
@@ -26,7 +28,7 @@ export function Player({ inputRef, playerPositionRef }: PlayerProps) {
       const yaw = input.cameraYaw;
       const moveX = unitStrafe * Math.cos(yaw) + unitForward * Math.sin(yaw);
       const moveZ = -unitStrafe * Math.sin(yaw) + unitForward * Math.cos(yaw);
-      const distance = 5.2 * Math.min(delta, 0.05);
+      const distance = PLAYER_SPEED * Math.min(delta, 0.05);
       const next = moveWithCollisions(
         player.x,
         player.z,

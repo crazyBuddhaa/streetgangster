@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type { GameInput } from '../types';
+import { DEFAULT_ZOOM, ZOOM_MAX, ZOOM_MIN } from '../camera/presets';
 
 const MOVEMENT_KEYS = new Set([
   'KeyW',
@@ -17,7 +18,12 @@ function clampAxis(value: number) {
 }
 
 export function useGameControls(active: boolean) {
-  const inputRef = useRef<GameInput>({ strafe: 0, forward: 0, cameraYaw: 0 });
+  const inputRef = useRef<GameInput>({
+    strafe: 0,
+    forward: 0,
+    cameraYaw: 0,
+    zoom: DEFAULT_ZOOM,
+  });
   const pressedKeys = useRef(new Set<string>());
   const joystick = useRef({ strafe: 0, forward: 0 });
 
@@ -59,10 +65,19 @@ export function useGameControls(active: boolean) {
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
     window.addEventListener('blur', clearKeys);
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      inputRef.current.zoom = Math.max(
+        ZOOM_MIN,
+        Math.min(ZOOM_MAX, inputRef.current.zoom + Math.sign(event.deltaY) * 0.075),
+      );
+    };
+    window.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('blur', clearKeys);
+      window.removeEventListener('wheel', onWheel);
       clearKeys();
     };
   }, [active, updateMovement]);
@@ -76,8 +91,16 @@ export function useGameControls(active: boolean) {
   );
 
   const rotateCamera = useCallback((pixelDelta: number) => {
-    inputRef.current.cameraYaw += pixelDelta * 0.006;
+    inputRef.current.cameraYaw += pixelDelta * 0.005;
   }, []);
 
-  return { inputRef, setJoystick, rotateCamera };
+  const setZoom = useCallback((zoom: number) => {
+    inputRef.current.zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom));
+  }, []);
+
+  const zoomBy = useCallback((amount: number) => {
+    setZoom(inputRef.current.zoom + amount);
+  }, [setZoom]);
+
+  return { inputRef, setJoystick, rotateCamera, setZoom, zoomBy };
 }
