@@ -41,7 +41,13 @@ The static build is written to apps/web/dist.
 
 ## Manual Cloudflare Pages deploy
 
-Build from the repository root, then deploy the generated directory. Create the Pages project once if it does not exist yet (project name: `streetgangster`):
+Run these commands from the repository root. Create the Pages project once if it does not exist yet:
+
+```sh
+npx wrangler pages project create streetgangster --production-branch main
+```
+
+Then build and deploy to the production branch:
 
 ```sh
 npm --prefix apps/web run build
