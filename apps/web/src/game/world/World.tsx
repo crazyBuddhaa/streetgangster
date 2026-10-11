@@ -2,7 +2,15 @@ import { Html } from '@react-three/drei/web/Html';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { Color, Group, InstancedMesh, Object3D, Vector3 } from 'three';
+import {
+  BufferGeometry,
+  Color,
+  Float32BufferAttribute,
+  Group,
+  InstancedMesh,
+  Object3D,
+  Vector3,
+} from 'three';
 import { MAP_BOUNDS, DISTRICT0_ITEMS } from './district0';
 import type { DistrictItem, LandmarkKind, Vec3 } from './district0';
 import type { CameraOccludersRef } from '../types';
@@ -158,6 +166,92 @@ function InstanceSet({
       {geometry}
       <meshStandardMaterial color={color} flatShading />
     </instancedMesh>
+  );
+}
+
+const floatingIslandRings = [
+  { radius: 76, depth: 76, height: -0.17, color: '#829776' },
+  { radius: 64, depth: 61, height: -1.9, color: '#ae8761' },
+  { radius: 47, depth: 43, height: -4.25, color: '#896b53' },
+  { radius: 27, depth: 25, height: -6.65, color: '#55534e' },
+];
+
+function createFloatingIslandGeometry() {
+  const geometry = new BufferGeometry();
+  const positions: number[] = [];
+  const colors: number[] = [];
+  const indices: number[] = [];
+  const segments = 36;
+  const cornerExponent = 0.28;
+  const topColor = new Color(floatingIslandRings[0].color);
+
+  positions.push(0, floatingIslandRings[0].height, 0);
+  colors.push(topColor.r, topColor.g, topColor.b);
+
+  floatingIslandRings.forEach((ring, ringIndex) => {
+    const color = new Color(ring.color);
+    for (let segment = 0; segment < segments; segment += 1) {
+      const angle = (segment / segments) * Math.PI * 2;
+      const cosine = Math.cos(angle);
+      const sine = Math.sin(angle);
+      const edgeVariation =
+        1 + Math.sin(angle * 3 + ringIndex * 0.8) * 0.022 + Math.cos(angle * 7 - ringIndex) * 0.012;
+      const x =
+        Math.sign(cosine) * Math.pow(Math.abs(cosine), cornerExponent) * ring.radius * edgeVariation;
+      const z =
+        Math.sign(sine) * Math.pow(Math.abs(sine), cornerExponent) * ring.depth * edgeVariation;
+
+      positions.push(x, ring.height, z);
+      colors.push(color.r, color.g, color.b);
+    }
+  });
+
+  for (let segment = 0; segment < segments; segment += 1) {
+    const current = 1 + segment;
+    const next = 1 + ((segment + 1) % segments);
+    indices.push(0, next, current);
+  }
+
+  for (let ringIndex = 0; ringIndex < floatingIslandRings.length - 1; ringIndex += 1) {
+    const upper = 1 + ringIndex * segments;
+    const lower = upper + segments;
+    for (let segment = 0; segment < segments; segment += 1) {
+      const next = (segment + 1) % segments;
+      const upperCurrent = upper + segment;
+      const upperNext = upper + next;
+      const lowerCurrent = lower + segment;
+      const lowerNext = lower + next;
+      indices.push(
+        upperCurrent,
+        upperNext,
+        lowerCurrent,
+        upperNext,
+        lowerNext,
+        lowerCurrent,
+      );
+    }
+  }
+
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function FloatingIsland() {
+  const geometry = useMemo(createFloatingIslandGeometry, []);
+
+  return (
+    <>
+      <mesh position={[0, -7.1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow={false}>
+        <planeGeometry args={[360, 360]} />
+        <meshStandardMaterial color="#62b4ad" roughness={1} />
+      </mesh>
+      <mesh geometry={geometry} castShadow={false} receiveShadow={false}>
+        <meshStandardMaterial vertexColors flatShading roughness={1} />
+      </mesh>
+    </>
   );
 }
 
@@ -536,27 +630,28 @@ function World({ cameraOccludersRef }: { cameraOccludersRef: CameraOccludersRef 
 
   return (
     <>
+      <FloatingIsland />
       <mesh position={[0, -0.13, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[MAP_BOUNDS.maxX - MAP_BOUNDS.minX, MAP_BOUNDS.maxZ - MAP_BOUNDS.minZ]} />
-        <meshStandardMaterial color="#aa946a" />
+        <meshStandardMaterial color="#788f70" />
       </mesh>
 
       <InstanceSet
         items={groups.roads}
         geometry={<boxGeometry args={[1, 1, 1]} />}
-        color="#4b4945"
+        color="#514f4c"
         transform={unitBoxTransform}
       />
       <InstanceSet
         items={groups.streets}
         geometry={<boxGeometry args={[1, 1, 1]} />}
-        color="#625d53"
+        color="#71695e"
         transform={unitBoxTransform}
       />
       <InstanceSet
         items={groups.medians}
         geometry={<boxGeometry args={[1, 1, 1]} />}
-        color="#71855d"
+        color="#71936c"
         transform={unitBoxTransform}
       />
 

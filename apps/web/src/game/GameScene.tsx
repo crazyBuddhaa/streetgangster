@@ -16,10 +16,10 @@ export function GameScene({
 }: GameSceneProps) {
   return (
     <>
-      <color attach="background" args={['#c9b58e']} />
-      <fog attach="fog" args={['#c9b58e', 80, 145]} />
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[-14, 24, 12]} intensity={1.35} />
+      <color attach="background" args={['#7bc4bb']} />
+      <fog attach="fog" args={['#7bc4bb', 95, 175]} />
+      <ambientLight intensity={1.45} />
+      <directionalLight position={[-14, 24, 12]} intensity={1.4} color="#fff0d5" />
       <World cameraOccludersRef={cameraOccludersRef} />
       <Player inputRef={inputRef} playerPositionRef={playerPositionRef} />
       <FollowCamera
