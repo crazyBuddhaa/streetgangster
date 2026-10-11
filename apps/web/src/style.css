@@ -379,6 +379,377 @@ button {
   }
 }
 
+.hud {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hud-profile {
+  display: flex;
+  min-width: 190px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  border: 2px solid #293f3d;
+  border-radius: 10px;
+  color: #263e3c;
+  background: rgb(244 238 215 / 96%);
+  box-shadow: 3px 4px 0 rgb(33 57 54 / 48%), 0 8px 24px rgb(16 39 40 / 18%);
+  pointer-events: auto;
+}
+
+.hud-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid #263e3c;
+  border-radius: 8px;
+  color: #263e3c;
+  background: #efa16a;
+  box-shadow: 2px 2px 0 #263e3c;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: 1rem;
+}
+
+.hud-profile-copy {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  grid-template-columns: 1fr;
+  gap: 3px;
+}
+
+.hud-profile .hud-label {
+  margin: 0;
+  color: #59736d;
+  font-size: 0.55rem;
+}
+
+.hud-profile .hud-value {
+  color: #263e3c;
+  font-size: 0.86rem;
+}
+
+.hud-profile .health-track {
+  width: 100%;
+  height: 5px;
+  margin-top: 2px;
+}
+
+.hud-profile .health-value {
+  align-self: end;
+  padding-bottom: 1px;
+  color: #526b5e;
+  font-size: 0.68rem;
+}
+
+.hud-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.map-toggle {
+  display: grid;
+  min-width: 62px;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  padding: 7px 9px;
+  border: 2px solid #293f3d;
+  border-radius: 10px;
+  color: #263e3c;
+  background: #f4eed7;
+  box-shadow: 3px 4px 0 rgb(33 57 54 / 48%);
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.map-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.map-toggle:hover,
+.map-toggle.is-active {
+  color: #213b39;
+  background: #efa16a;
+}
+
+.map-toggle:focus-visible,
+.map-close:focus-visible,
+.zoom-toggle:focus-visible {
+  outline: 3px solid #fff1d1;
+  outline-offset: 3px;
+}
+
+.map-panel {
+  position: absolute;
+  z-index: 7;
+  top: calc(env(safe-area-inset-top, 0px) + 74px);
+  right: max(14px, env(safe-area-inset-right));
+  width: min(332px, calc(100vw - 28px));
+  padding: 13px;
+  border: 2px solid #283f3c;
+  border-radius: 13px;
+  color: #263e3c;
+  background: #f4eed7;
+  box-shadow: 5px 6px 0 rgb(23 51 47 / 78%), 0 20px 44px rgb(11 39 39 / 26%);
+  pointer-events: auto;
+}
+
+.map-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.map-kicker {
+  display: block;
+  margin-bottom: 2px;
+  color: #678078;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.map-panel-header h2 {
+  margin: 0;
+  color: #293f3d;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.map-close {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid #2d4742;
+  border-radius: 8px;
+  color: #263e3c;
+  background: #e8dfc2;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.map-close svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.map-art {
+  overflow: hidden;
+  border: 2px solid #344f49;
+  border-radius: 10px;
+  background: #86cfc2;
+}
+
+.district-map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-compass {
+  fill: #28433e;
+  font-family: system-ui, sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.map-player-pulse {
+  fill: none;
+  stroke: #ef9c67;
+  stroke-width: 1.8;
+  opacity: 0.75;
+  animation: map-pulse 1.8s ease-out infinite;
+}
+
+@keyframes map-pulse {
+  0% {
+    opacity: 0.82;
+    r: 5;
+  }
+  100% {
+    opacity: 0;
+    r: 12;
+  }
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 2px 8px;
+  color: #60756c;
+  font-size: 0.61rem;
+  font-weight: 750;
+}
+
+.map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.map-legend i,
+.place-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border: 1px solid #344f49;
+  border-radius: 50%;
+  background: #d8845b;
+}
+
+.map-legend .legend-you {
+  background: #ef9c67;
+}
+
+.map-legend .legend-place {
+  background: #f6efd9;
+}
+
+.map-legend .legend-green,
+.place-dot-green {
+  background: #739455;
+}
+
+.map-landmark-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px 5px;
+  margin: 0;
+  padding: 8px 0 10px;
+  border-top: 1px solid #d8cdae;
+  list-style: none;
+}
+
+.map-landmark-list li {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 5px;
+  color: #455d54;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.map-landmark-list .place-dot {
+  width: 6px;
+  height: 6px;
+}
+
+.map-position {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 9px;
+  border-top: 1px solid #d8cdae;
+  color: #678078;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.map-position strong {
+  color: #293f3d;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 680px) {
+  .hud {
+    gap: 6px;
+  }
+
+  .hud-profile {
+    min-width: 0;
+    gap: 7px;
+    padding: 7px 8px;
+    border-radius: 9px;
+  }
+
+  .hud-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+  }
+
+  .hud-profile .hud-label {
+    font-size: 0.48rem;
+  }
+
+  .hud-profile .hud-value {
+    font-size: 0.75rem;
+  }
+
+  .hud-profile .health-value {
+    font-size: 0.61rem;
+  }
+
+  .hud-actions {
+    gap: 6px;
+  }
+
+  .map-toggle {
+    min-width: 48px;
+    padding: 6px 7px;
+    border-radius: 9px;
+    font-size: 0.58rem;
+  }
+
+  .map-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .zoom-toggle {
+    min-width: 75px;
+    padding: 7px 8px;
+    border-radius: 9px;
+  }
+
+  .zoom-toggle strong {
+    font-size: 0.61rem;
+  }
+
+  .map-panel {
+    top: calc(env(safe-area-inset-top, 0px) + 68px);
+    right: max(10px, env(safe-area-inset-right));
+    width: min(320px, calc(100vw - 20px));
+    padding: 11px;
+  }
+}
+
 /* Messenger-inspired visual language: a floating-city poster, inked edges,
    turquoise negative space, and warm paper controls. All artwork is original. */
 :root {

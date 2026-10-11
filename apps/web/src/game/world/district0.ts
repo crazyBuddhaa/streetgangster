@@ -79,6 +79,8 @@ const landmarkItems: DistrictItem[] = [
   { id: 'arena-patch', type: 'building', landmark: 'arena', label: 'Arena', position: [36, 0, 36], size: [18, 0.12, 16], rotation: 0, color: '#927d59', roofColor: '#d7b86e' },
 ];
 
+export const DISTRICT0_LANDMARKS = landmarkItems;
+
 const mainRoads: DistrictItem[] = MAIN_ROAD_OFFSETS.flatMap((offset, index) => [
   {
     id: `main-road-north-south-${index}`,
